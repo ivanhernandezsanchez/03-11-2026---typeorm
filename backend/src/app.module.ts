@@ -1,6 +1,8 @@
 import { Controller, Get, Header, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { DataSource } from "typeorm";
+import { TrayectoModule } from './trayecto/trayecto.module';
+import { ConfigModule } from "@nestjs/config";
 
 @Controller("salud")
 class SaludController {
@@ -40,6 +42,9 @@ main{background:white;padding:32px;border-radius:16px;max-width:560px;margin:20p
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: "postgres",
       host: process.env.DB_HOST || "localhost",
@@ -50,6 +55,7 @@ main{background:white;padding:32px;border-radius:16px;max-width:560px;margin:20p
       autoLoadEntities: true,
       synchronize: false,
     }),
+    TrayectoModule,
   ],
   controllers: [SaludController],
 })
